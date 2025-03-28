@@ -1,14 +1,7 @@
-import requests
-import pandas as pd 
+import pandas as pd
+from src.extractTransform import requestApiBcb
+from src.load import salvarCsv
 
+dadosBcb = requestApiBcb('20191')
+salvarCsv(dadosBcb, "etlBCB/src/datasets/meiosPagamentosTri.csv", ";", ".")
 
-def requestApiBcd (data):
-    url = f"https://olinda.bcb.gov.br/olinda/servico/MPV_DadosAbertos/versao/v1/odata/MeiosdePagamentosTrimestralDA(trimestre=@trimestre)?@trimestre=%27{data}27&$format=json"
-
-    req = requests.get(url)
-    dados = req.json()
-
-    df = pd.json_normalize(dados['value'])
-    return print (df)
-
-requestApiBcd('20241')
