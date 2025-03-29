@@ -3,18 +3,16 @@
 Este projeto realiza a extração, transformação e carga (ETL) de dados da API do Banco Central do Brasil. O objetivo é obter informações sobre meios de pagamento trimestrais e armazená-las em um arquivo CSV para posterior análise.
 
 # 📝 Estrutura do Projeto e Arquivos
-main.py → Arquivo principal que orquestra o processo ETL.
-
-extractTransform.py → Responsável pela extração de dados da API.
-
-load.py → Responsável por salvar os dados em um arquivo CSV.
-
-requeriments.txt → Lista as dependências do projeto.
-
-datasets/ → Pasta onde os arquivos CSV serão armazenados.
+Apenas os arquivos principais
+Arquivo                  | Descrição
+-------------------------|---------------------------------------------
+main.py                  | Arquivo principal que orquestra o processo ETL
+extractTransform.py      | Responsável pela extração de dados da API
+load.py                  | Responsável por salvar os dados em um arquivo CSV
+datasets/                | Pasta onde os arquivos CSV serão armazenados
 
 # 📖 Dicionário
-
+Os valores principais
 Coluna                   | Tipo      | Descrição
 -------------------------|----------|---------------------------------------------
 datatrimestre            | datetime | Data do trimestre referenciado
