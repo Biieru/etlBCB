@@ -1,106 +1,63 @@
-# ETLBCB - Extração, Transformação e Análise de Dados do Banco Central do Brasil
+# etlBCB · ETL e análise de dados do Banco Central
 
-Este projeto realiza a extração, transformação e análise de dados do Banco Central do Brasil (BCB), com foco em análise de séries temporais e machine learning.
+Pipeline em **Python** que extrai dados abertos de meios de pagamento do **Banco Central do Brasil**, trata com **pandas** e grava em **SQLite** ou **MySQL**. Depois, notebooks fazem a análise exploratória e testam modelos de previsão (**Prophet** e **Random Forest**) para o gasto com cartão de crédito.
 
-## 📋 Descrição
+## 🔎 O que o projeto faz
 
-O ETLBCB é um projeto que automatiza a coleta de dados do Banco Central do Brasil, realiza transformações necessárias e permite análises avançadas utilizando técnicas de machine learning e séries temporais.
+1. **Extract:** consulta a API OData de dados abertos do BCB (Meios de Pagamento Trimestrais) por trimestre
+2. **Transform:** normaliza o JSON em DataFrame e converte a coluna de data
+3. **Load:** grava o resultado em CSV, SQLite ou MySQL (via SQLAlchemy)
+4. **Análise:** estatística descritiva, médias e medianas (Pix, cartões), correlação entre variáveis e modelos de previsão
 
-## 🚀 Funcionalidades
+## 🛠️ Tecnologias
 
-- Extração automática de dados do BCB
-- Transformação e limpeza dos dados
-- Análise exploratória de dados
-- Previsões usando Prophet (Facebook)
-- Visualizações interativas
-- Análise de correlações
-- Machine Learning para previsões
+Python · requests · pandas · SQLite · MySQL · SQLAlchemy · PyMySQL · Matplotlib · Seaborn · scikit-learn · Prophet · Jupyter
 
-## 🛠️ Tecnologias Utilizadas
-
-- Python 3.x
-- Pandas
-- Prophet (Facebook)
-- Scikit-learn
-- Matplotlib
-- Seaborn
-- Plotly
-- SQLAlchemy
-- PyMySQL
-
-## 📦 Instalação
-
-1. Clone o repositório:
-```bash
-git clone https://github.com/Biieru/etlBCB.git
-cd etlBCB
-```
-
-2. Crie um ambiente virtual:
-```bash
-python -m venv .venv
-```
-
-3. Ative o ambiente virtual:
-- Windows:
-```bash
-.venv\Scripts\activate
-```
-- Linux/Mac:
-```bash
-source .venv/bin/activate
-```
-
-4. Instale as dependências:
-```bash
-pip install -r requirements.txt
-```
-
-## 📊 Estrutura do Projeto
+## 📁 Estrutura
 
 ```
 etlBCB/
-├── src/                    # Código fonte
-├── .venv/                  # Ambiente virtual
-├── main.py                 # Script principal
-├── requirements.txt        # Dependências do projeto
-├── MachineLearning.ipynb   # Notebook de Machine Learning
-├── Relatorio.ipynb         # Notebook de Análise
-└── analise_cartoes.ipynb   # Notebook de Análise de Cartões
+├── main.py                    # roda o ETL (extrai um trimestre e grava no SQLite)
+├── src/
+│   ├── extractTransform.py    # requestApiBcb(): chamada à API e tratamento
+│   ├── load.py                # salvarCsv(), salvarSqlite(), salvarMySql()
+│   └── datasets/              # CSV e bancos SQLite gerados
+├── Relatorio.ipynb            # análise exploratória dos meios de pagamento
+├── analise_pagamentos.ipynb   # médias, medianas e estatística descritiva
+├── analise_cartoes.ipynb      # análise das transações com cartão
+├── MachineLearning.ipynb      # correlação, Random Forest e Prophet
+└── requirements.txt
 ```
 
-## 🎯 Como Usar
+## ▶️ Como rodar
 
-1. Execute o script principal:
 ```bash
+git clone https://github.com/Biieru/etlBCB.git
+cd etlBCB
+python -m venv .venv
+# Windows: .venv\Scripts\activate   |   Linux/Mac: source .venv/bin/activate
+pip install -r requirements.txt
 python main.py
 ```
 
-2. Para análises mais detalhadas, abra os notebooks Jupyter:
-- `MachineLearning.ipynb`: Análises de machine learning e previsões
-- `Relatorio.ipynb`: Relatórios e análises gerais
-- `analise_cartoes.ipynb`: Análises específicas de cartões
+O `main.py` baixa o trimestre `20191` e grava em `src/datasets/etlbcb.db`. Para outro trimestre, troque o parâmetro (formato `AAAAT`, ex.: `20234`). Depois, abra os notebooks com `jupyter notebook`.
 
-## 📈 Exemplos de Análises
+## 📈 Principais análises
 
-O projeto inclui diversos tipos de análises:
-- Previsões de séries temporais usando Prophet
-- Análise de correlações entre variáveis
-- Visualizações interativas com Plotly
-- Modelos de machine learning para previsões
+- Estrutura e qualidade dos dados (tipos, valores faltantes, conversão de datas)
+- Médias e medianas por meio de pagamento, com destaque para Pix
+- Correlação entre variáveis para escolher preditores do gasto com cartão de crédito
+- Random Forest com importância das variáveis
+- Série temporal com Prophet
 
-## 🤝 Contribuindo
+<!-- Dica: coloque aqui 1 ou 2 prints dos gráficos dos notebooks. Arraste a imagem para o editor do GitHub que ele gera o link. -->
 
-1. Faça um Fork do projeto
-2. Crie uma Branch para sua Feature (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. Push para a Branch (`git push origin feature/AmazingFeature`)
-5. Abra um Pull Request
+## 🔜 Próximos passos
 
-## 📝 Licença
+- [ ] Buscar vários trimestres em sequência no `main.py`
+- [ ] Ler usuário e senha do MySQL de variáveis de ambiente (`.env`)
+- [ ] Testes com `pytest` para extração e carga
 
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+## 👤 Autor
 
-## ✨ Autor
-
-[Gabriel Coelho de Araujo] - [business.coleho@gmail.com]
+**Gabriel Coelho de Araújo** · [dev.to](https://dev.to/bordercansado) · coleho.biel@gmail.com
